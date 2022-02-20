@@ -1,5 +1,4 @@
 import React from "react";
-import { Container, Card } from "reactstrap";
 import Avatar from "@material-ui/core/Avatar";
 import "./Post.css";
 
@@ -15,7 +14,11 @@ export default function Post({ username, caption, imageUrl }) {
         <h4>{username}</h4>
       </div>
 
-      <img className="post_image" src="logo192.png" />
+      <img
+        className="post_image"
+        src="logo192.png"
+        alt="Mania is coming home"
+      />
       {""}
       <h4 className="post_text">
         <strong> {username}</strong> {caption}

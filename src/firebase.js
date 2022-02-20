@@ -1,21 +1,21 @@
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
-//import * as firebase from "firebase/app";
-import firebase from "firebase";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/storage";
+import "firebase/compat/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseApp = firebase.initializeApp({
-  apiKey: "AIzaSyCGibgVVaGeGbMryYPR1uzEY3OjZa0RgFA",
-  authDomain: "instagram-clone-1bf5f.firebaseapp.com",
-  databaseURL: "https://instagram-clone-1bf5f-default-rtdb.firebaseio.com",
-  projectId: "instagram-clone-1bf5f",
-  storageBucket: "instagram-clone-1bf5f.appspot.com",
-  messagingSenderId: "207357928867",
-  appId: "1:207357928867:web:3c20197299915e0d66e616",
-  measurementId: "G-9GER9FM2TK",
+  apiKey: "AIzaSyDSv-pTeid8wMlt78X7hyz6wcd2dBXnmsw",
+  authDomain: "instagram-clone2-aa015.firebaseapp.com",
+  projectId: "instagram-clone2-aa015",
+  storageBucket: "instagram-clone2-aa015.appspot.com",
+  messagingSenderId: "467631486621",
+  appId: "1:467631486621:web:66304aad9404b59aeb8674",
+  measurementId: "G-H2TVF1T0MF",
 });
 
 const db = firebaseApp.firestore();
 const auth = firebase.auth();
-const storage = firebase.storage();
+const storage = getStorage(firebaseApp);
 
-export { db, auth, storage };
+export { auth, storage, db };

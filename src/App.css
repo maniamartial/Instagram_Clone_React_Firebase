@@ -3,6 +3,8 @@
 }
 .app {
   background-color: #fafafa;
+  padding: 200px;
+  margin: 50px;
 }
 
 .app_header {
