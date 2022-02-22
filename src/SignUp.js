@@ -59,6 +59,7 @@ export default function SignUp() {
                 name="username"
                 placeholder="Username"
                 type="text"
+                onChange={(e) => setUsername(e.target.value)}
               />
             </FormGroup>{" "}
             <FormGroup>
@@ -70,13 +71,19 @@ export default function SignUp() {
                 name="email"
                 placeholder="Email"
                 type="email"
+                onChange={(e) => setEmail(e.target.value)}
               />
             </FormGroup>{" "}
             <FormGroup>
               <Label for="examplePassword" hidden>
                 Password
               </Label>
-              <Input name="password" placeholder="Password" type="password" />
+              <Input
+                name="password"
+                placeholder="Password"
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </FormGroup>{" "}
           </Form>
         </ModalBody>
