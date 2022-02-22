@@ -8,6 +8,9 @@ import { auth, db, storage } from "./firebase";
 import { Input, Label, Form, FormGroup } from "reactstrap";
 import { Container } from "reactstrap";
 import { ButtonGroup } from "@material-ui/core";
+import SignUp from "./SignUp";
+import SignIn from "./SignIn";
+import ImageUpload from "./ImageUpload";
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -44,26 +47,6 @@ function App() {
     };
   }, [user, username]);
 
-  const singUp = (event) => {
-    event.preventDefault();
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((authUser) => {
-        return authUser.user.updateProfile({
-          displayName: username,
-        });
-      })
-      .catch((error) => alert(error.message));
-  };
-
-  const signIn = (e) => {
-    e.preventDefault();
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .catch((error) => error.message);
-    setOpenSignIn(false);
-  };
-
   useEffect(() => {
     db.collection("posts").onSnapshot((snapshot) =>
       setPosts(snapshot.docs.map((doc) => doc.data()))
@@ -73,142 +56,34 @@ function App() {
   return (
     <div className="App">
       <Container>
-        <Modal
-          color="danger"
-          isOpen={modal}
-          toggle={toggle}
-          backdropTransition={{
-            timeout: 800,
-          }}
-          modalTransition={{
-            timeout: 200,
-          }}
-        >
-          <ModalHeader toggle={toggle}>
-            {" "}
-            <img
-              className="app_headerImage"
-              src="  https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
-              alt="Instagram Logo"
-            />
-          </ModalHeader>
-          <ModalBody>
-            <Form inline>
-              <FormGroup>
-                <Label for="username" hidden>
-                  Username
-                </Label>
-                <Input
-                  id="username"
-                  name="username"
-                  placeholder="Username"
-                  type="text"
-                />
-              </FormGroup>{" "}
-              <FormGroup>
-                <Label for="exampleEmail" hidden>
-                  Email
-                </Label>
-                <Input
-                  id="exampleEmail"
-                  name="email"
-                  placeholder="Email"
-                  type="email"
-                />
-              </FormGroup>{" "}
-              <FormGroup>
-                <Label for="examplePassword" hidden>
-                  Password
-                </Label>
-                <Input name="password" placeholder="Password" type="password" />
-              </FormGroup>{" "}
-            </Form>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={singUp}>
-              SignUp
-            </Button>{" "}
-            <Button onClick={function noRefCheck() {}} color="danger">
-              Cancel
-            </Button>
-          </ModalFooter>
-        </Modal>
+        {user ? (
+          <Button
+            className="btn-block"
+            color="primary"
+            onClick={() => auth.signOut()}
+          >
+            Logout
+          </Button>
+        ) : (
+          <ButtonGroup>
+            <SignUp></SignUp>
+            {""}
+            <SignIn></SignIn>
+            {""}
+          </ButtonGroup>
+        )}
+        {"     "}
 
-        <Modal
-          color="danger"
-          isOpen={modal}
-          toggle={toggle}
-          backdropTransition={{
-            timeout: 800,
-          }}
-          modalTransition={{
-            timeout: 200,
-          }}
-        >
-          <ModalHeader toggle={toggle}>
-            {" "}
-            <img
-              className="app_headerImage"
-              src="  https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
-              alt="Instagram Logo"
-            />
-          </ModalHeader>
-          <ModalBody>
-            <Form inline>
-              ]
-              <FormGroup>
-                <Label for="exampleEmail" hidden>
-                  Email
-                </Label>
-                <Input
-                  id="exampleEmail"
-                  name="email"
-                  placeholder="Email"
-                  type="email"
-                />
-              </FormGroup>{" "}
-            </Form>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={singUp}>
-              SignIn
-            </Button>{" "}
-            <Button onClick={function noRefCheck() {}} color="danger">
-              Cancel
-            </Button>
-          </ModalFooter>
-        </Modal>
         <div className="app_header">
           <img
             className="app_headerImage"
             src="  https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
             alt="Instagram Logo"
           />
-
-          {user ? (
-            <Button
-              className="btn-block"
-              color="primary"
-              onClick={() => auth.signOut()}
-            >
-              Logout
-            </Button>
-          ) : (
-            <ButtonGroup>
-              <Button className="btn-block" color="primary" onClick={toggle}>
-                SIGN IN
-              </Button>
-              {""}
-              <Button className="btn-block" color="primary" onClick={toggle}>
-                SIGN UP
-              </Button>
-            </ButtonGroup>
-          )}
-          {"     "}
         </div>
 
         <h2>Stop the fuck out of ur mouth budy</h2>
-
+        <ImageUpload></ImageUpload>
         {posts.map((post) => (
           <Post
             username={post.username}

@@ -6,7 +6,7 @@ import { Input, Label, Form, FormGroup } from "reactstrap";
 import { Container } from "reactstrap";
 import { ButtonGroup } from "@material-ui/core";
 
-export default function SignIn() {
+export default function SignUp() {
   const [modal, setModal] = React.useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -15,12 +15,16 @@ export default function SignIn() {
   const [openSignIn, setOpenSignIn] = useState(false);
   const toggle = () => setModal(!modal);
 
-  const signIn = (e) => {
-    e.preventDefault();
+  const singUp = (event) => {
+    event.preventDefault();
     auth
-      .signInWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        return authUser.user.updateProfile({
+          displayName: username,
+        });
+      })
       .catch((error) => alert(error.message));
-    setOpenSignIn(false);
   };
 
   return (
@@ -47,6 +51,17 @@ export default function SignIn() {
         <ModalBody>
           <Form inline>
             <FormGroup>
+              <Label for="username" hidden>
+                Username
+              </Label>
+              <Input
+                id="username"
+                name="username"
+                placeholder="Username"
+                type="text"
+              />
+            </FormGroup>{" "}
+            <FormGroup>
               <Label for="exampleEmail" hidden>
                 Email
               </Label>
@@ -55,26 +70,19 @@ export default function SignIn() {
                 name="email"
                 placeholder="Email"
                 type="email"
-                onChange={(e) => setEmail(e.target.value)}
               />
             </FormGroup>{" "}
             <FormGroup>
               <Label for="examplePassword" hidden>
                 Password
               </Label>
-              <Input
-                id="examplePasswordl"
-                name="password"
-                placeholder="Password"
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <Input name="password" placeholder="Password" type="password" />
             </FormGroup>{" "}
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={signIn}>
-            SignIn
+          <Button color="primary" onClick={singUp}>
+            SignUp
           </Button>{" "}
           <Button onClick={function noRefCheck() {}} color="danger">
             Cancel
@@ -82,7 +90,7 @@ export default function SignIn() {
         </ModalFooter>
       </Modal>
       <Button className="btn-block" color="primary" onClick={toggle}>
-        SIGN IN
+        SIGN UP
       </Button>
     </div>
   );
