@@ -4,7 +4,8 @@ import { storage, db } from "./firebase";
 
 import firebase from "firebase/compat/app";
 
-export default function ({ username }) {
+
+export default function ({ email }) {
   const [caption, setCaption] = useState("");
   const [progress, setProgress] = useState(0);
   const [image, setImage] = useState(null);
@@ -16,14 +17,17 @@ export default function ({ username }) {
   };
 
   const handleUpload = () => {
+
     const uploadTask = storage.ref(`images/${image.name}`).put(image);
     uploadTask.on(
       "state_changed",
+      
       (snapshot) => {
         const progress = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
         setProgress(progress);
+           alert("Mania Joseph")
       },
       (error) => {
         console.log(error);
@@ -37,11 +41,12 @@ export default function ({ username }) {
           .getDownloadURL()
           .then((url) => {
             //post image to teh database
+            alert("I am coming home")
             db.collection("posts").add({
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
               caption: caption,
               imageUrl: url,
-              username: username,
+              email: email,
             });
             setProgress(0);
             setCaption("");

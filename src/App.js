@@ -89,7 +89,7 @@ function App() {
 
         {user?.email ? (
           <div className="app__upload">
-            <ImageUpload username={user.email} />
+            <ImageUpload email={user.email} />
           </div>
         ) : (
           <center>
