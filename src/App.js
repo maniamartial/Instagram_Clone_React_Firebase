@@ -11,6 +11,7 @@ import { ButtonGroup } from "@material-ui/core";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import ImageUpload from "./ImageUpload";
+import { getAuth } from "firebase/auth";
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -53,6 +54,8 @@ function App() {
     );
   }, []);
 
+  //Getting current user
+  //const user = auth.currentUser;
   return (
     <div className="App">
       <Container>
@@ -83,7 +86,17 @@ function App() {
         </div>
 
         <h2>Stop the fuck out of ur mouth budy</h2>
-        <ImageUpload></ImageUpload>
+
+        {user?.email ? (
+          <div className="app__upload">
+            <ImageUpload username={user.email} />
+          </div>
+        ) : (
+          <center>
+            <h3 className="red">Login to upload</h3>
+          </center>
+        )}
+
         {posts.map((post) => (
           <Post
             username={post.username}
@@ -97,6 +110,16 @@ function App() {
 }
 
 /*
+
+          {user !== null ? (
+          <div>
+            Hey, welcome {""}
+            {user.email}
+          </div>
+        ) : (
+          <div>Tulia broo</div>
+        )}
+        
   useEffect(() => {
     db.collection("posts").onSnapshot((snapshot) => {
       setPosts(

@@ -7,7 +7,7 @@ import firebase from "firebase/compat/app";
 export default function ({ username }) {
   const [caption, setCaption] = useState("");
   const [progress, setProgress] = useState(0);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
@@ -29,6 +29,7 @@ export default function ({ username }) {
         console.log(error);
         alert(error.message);
       },
+
       () => {
         storage
           .ref("images")
@@ -42,12 +43,17 @@ export default function ({ username }) {
               imageUrl: url,
               username: username,
             });
+            setProgress(0);
+            setCaption("");
+            setImage(null);
           });
       }
     );
   };
+
   return (
     <div>
+      <progress value={progress} max="100" />
       <Input
         type="text/"
         placeholder="Enter a caption"
